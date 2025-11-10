@@ -7,13 +7,14 @@ import frc.robot.subsystems.TankDriveSubsystem;
 
 public class TankDriveCMD extends Command {
     TankDriveSubsystem tankDriveSubsystem;
-    Supplier<Double> joystickY;
-    Supplier<Double> joystickX;
-    public TankDriveCMD (TankDriveSubsystem tankDriveSubsystem, Supplier<Double> joystickY, Supplier<Double> joystickX) {
+    Supplier<Double> joystickLeft;
+    Supplier<Double> joystickRight;
+    public TankDriveCMD (TankDriveSubsystem tankDriveSubsystem, Supplier<Double> joystickLeft, Supplier<Double> joystickRight) {
         this.tankDriveSubsystem = tankDriveSubsystem;
-        this.joystickY = joystickY;
-        this.joystickX = joystickX;
+        this.joystickLeft = joystickLeft;
+        this.joystickRight = joystickRight;
         addRequirements(tankDriveSubsystem);
+        
     }
 
   @Override
@@ -21,7 +22,10 @@ public class TankDriveCMD extends Command {
   
   @Override
   public void execute() {
-    
+    double powerLeft = joystickLeft.get(); 
+    double powerRight = joystickRight.get();
+
+    tankDriveSubsystem.arcadeDrive(powerLeft, powerRight);
   }
 
   @Override
