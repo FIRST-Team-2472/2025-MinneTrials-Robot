@@ -7,8 +7,10 @@ public class TankDriveCMD extends Command {
     MotorSubsystem motorSubsystem;
     public TankDriveCMD (MotorSubsystem motorSubsystem) {
         this.motorSubsystem = motorSubsystem;
-        addRequirements(motorSubsystem);
+       addRequirements(motorSubsystem);
     }
+
+    
 
   @Override
   public void initialize() {}
