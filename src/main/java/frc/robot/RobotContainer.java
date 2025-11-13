@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.TankDriveCMD;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -18,16 +19,14 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   
-  Subsystem motorSubsystem = new Subsystem() {};
-  Joystick LeftJoystickSubsystem = new Joystick(0);
-  Joystick RightJoystickSubsystem = new Joystick(0);
+  Subsystem TankDriveSubsystem = new Subsystem() {};
+  Joystick LeftJoystick = new Joystick(0);
+  Joystick RightJoystick = new Joystick(0);
 
 //MotorSubsystem motorSubsystem = new MotorSubsystem();
 //XboxController XboxSubsystem = new XboxController(0)
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController m_driverController =
-      new XboxController(OperatorConstants.kDriverControllerPort);
   private final Joystick leftJoystick = 
       new Joystick(OperatorConstants.kDriverControllerPort);
   private final Joystick rightJoystick =
@@ -36,8 +35,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
         // Configure the trigger bindings
-    TankDriveSubsystem.setDefaultCommand(new TankDriveCMD (TankDriveSubsystem,
-() -> LeftJoystickSubsystem.getleftY()));
+    TankDriveSubsystem.setDefaultCommand(new TankDriveCMD(TankDriveSubsystem,
+() -> LeftJoystick.getY()));
+    configureBindings();
+    
+    TankDriveSubsystem.setDefaultCommand(new TankDriveCMD(TankDriveSubsystem,
+() -> RightJoystick.getY()));
     configureBindings();
   }
 
@@ -51,9 +54,8 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
 
-  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
