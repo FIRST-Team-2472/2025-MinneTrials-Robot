@@ -24,19 +24,9 @@ public class TankDriveSubsystem extends SubsystemBase {
       }
     
     //Methods that set the power of each motor
-    public void SetLeftMotorPower(double power){
-        if (power>1||power<-1) {
-            leftMotor.set(0);
-        }else{
-            leftMotor.set(power);
-        }
-    }
-    public void SetRightMotorPower(double power){
-        if(power>1||power<-1){
-            rightMotor.set(0);
-        }else{
-            rightMotor.set(power);
-        }
+    public void setMotorPower(double leftPower, double rightPower){
+        leftMotor.set(leftPower);
+        rightMotor.set(rightPower);
     }
 }
 

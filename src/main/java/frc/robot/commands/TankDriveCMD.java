@@ -8,9 +8,9 @@ import frc.robot.subsystems.MotorSubsystem;
 
 public class TankDriveCMD extends Command {
     MotorSubsystem motorSubsystem;
-    public TankDriveCMD (MotorSubsystem motorSubsystem, Supplier <Double> leftSpeed, Supplier<Double> rightSpeed) {
-        this.motorSubsystem = motorSubsystem;
-       addRequirements(motorSubsystem);
+    public TankDriveCMD (MotorSubsystem tankDriveSubsystem, Supplier <Double> leftSpeed, Supplier<Double> rightSpeed) {
+        this.motorSubsystem = tankDriveSubsystem;
+       addRequirements(tankDriveSubsystem);
     }
 
     
@@ -25,8 +25,10 @@ public class TankDriveCMD extends Command {
   public void initialize() {}
   
   @Override
-  public void execute() {}
-
+  public void execute() {
+    // insert the thing that gets the power here
+  }
+  
   @Override
   public void end(boolean interrupted) {}
 

@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.TankDriveCMD;
+import frc.robot.subsystems.MotorSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   
-  Subsystem TankDriveSubsystem = new Subsystem() {};
+  Subsystem tankDriveSubsystem = new Subsystem() {};
   Joystick LeftJoystick = new Joystick(0);
   Joystick RightJoystick = new Joystick(0);
 
@@ -28,19 +29,15 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick leftJoystick = 
-      new Joystick(OperatorConstants.kDriverControllerPort);
+      new Joystick(OperatorConstants.kDriverControllerPort); // Controls left wheel
   private final Joystick rightJoystick =
-      new Joystick(OperatorConstants.kDriverControllerPort);
+      new Joystick(OperatorConstants.kDriverControllerPort); // Controls right wheel
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
         // Configure the trigger bindings
     TankDriveSubsystem.setDefaultCommand(new TankDriveCMD(TankDriveSubsystem,
-() -> LeftJoystick.getY()));
-    configureBindings();
-    
-    TankDriveSubsystem.setDefaultCommand(new TankDriveCMD(TankDriveSubsystem,
-() -> RightJoystick.getY()));
+() -> LeftJoystick.getY(), () -> RightJoystick.getY()));
     configureBindings();
   }
 
