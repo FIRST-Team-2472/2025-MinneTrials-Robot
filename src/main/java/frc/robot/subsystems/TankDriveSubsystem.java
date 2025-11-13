@@ -1,4 +1,4 @@
- package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -30,7 +30,7 @@ public class TankDriveSubsystem extends SubsystemBase {
   
   public TankDriveSubsystem() {
     SparkMaxConfig config = new SparkMaxConfig();
-    config.smartCurrentLimit(35);
+    config.smartCurrentLimit(kSmartCurrentLimit);
     config.idleMode(IdleMode.kBrake);
     leftDriveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     rightDriveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
