@@ -12,12 +12,33 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    private SparkMax flyWheel = new SparkMax(Constants.OperatorConstants.flyWheelID, MotorType.kBrushless);
-    private SparkMax transferWheel = new SparkMax(Constants.OperatorConstants.transferWheelID, MotorType.kBrushless);
+    private SparkMax flyWheel = new SparkMax(Constants.ShooterConstants.kFlyWheelID, MotorType.kBrushless);
+    private SparkMax transferWheel = new SparkMax(Constants.ShooterConstants.kTransferWheelID, MotorType.kBrushless);
+    private SparkMax agitator = new SparkMax(Constants.ShooterConstants.kAgitatorMotorID, MotorType.kBrushless);
 
-    public ShooterSubsystem(){
+    public ShooterSubsystem() {
         SparkMaxConfig config = new SparkMaxConfig();
         config.smartCurrentLimit(35);
-    
+        config.idleMode(IdleMode.kBrake);
+        flyWheel.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        agitator.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        transferWheel.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    public void SetflyWheelPower(double power) {
+        flyWheel.set(power);
+    }
+
+    public void SetTransferWheelPower(double power) {
+        transferWheel.set(power);
+    }
+
+    public void SetAgitatorPower(double power) {
+        agitator.set(power);
+    }
+
+    @Override
+    public void periodic() {
+
     }
 }
