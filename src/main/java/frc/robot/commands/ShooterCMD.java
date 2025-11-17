@@ -4,10 +4,13 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.MotorPowerController;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterCMD extends Command {
   ShooterSubsystem shooterSubsystem;
+  MotorPowerController flywheelMotorPowerController;
+  MotorPowerController indexMotorPowerController;
   Supplier<Boolean> leftTrigger;
   Supplier<Boolean> rightTrigger;
   double AgitatorPower = 0.2;
@@ -19,6 +22,8 @@ public class ShooterCMD extends Command {
     this.leftTrigger = leftTrigger;
     this.rightTrigger = rightTrigger;
     addRequirements(shooterSubsystem);
+    flywheelMotorPowerController = new MotorPowerController(0.0014, 0.5, 0.1, 0.5, 0.67, 0, 100);
+    indexMotorPowerController = new MotorPowerController(0.01, 0.1, 0.1, 0.5, 0.67, 0, 34.9);
   }
 
   @Override
@@ -35,15 +40,15 @@ public class ShooterCMD extends Command {
     }
     
     if (leftTrigger.get()) {
-      shooterSubsystem.SetflyWheelPower(1);
+      shooterSubsystem.SetflyWheelPower(flywheelMotorPowerController.calculate(1400, shooterSubsystem.getFlyWheelRPM()));
     } else {
-      shooterSubsystem.SetflyWheelPower(0);
+      shooterSubsystem.SetflyWheelPower(flywheelMotorPowerController.calculate(0, shooterSubsystem.getFlyWheelRPM()));
     }
 
     if (rightTrigger.get()) {
-      shooterSubsystem.SetTransferWheelPower(0.25);
+      shooterSubsystem.SetTransferWheelPower(indexMotorPowerController.calculate(200, shooterSubsystem.getTransferRPM()));
     } else {
-      shooterSubsystem.SetTransferWheelPower(0);
+      shooterSubsystem.SetTransferWheelPower(indexMotorPowerController.calculate(0, shooterSubsystem.getTransferRPM()));
     }
   }
 
