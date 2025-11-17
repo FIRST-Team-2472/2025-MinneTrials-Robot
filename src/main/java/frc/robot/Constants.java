@@ -17,10 +17,16 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kLeftJoystickPort = 0;
     public static final int kRightJoystickPort = 0;
+    public static final double kJoystickDeadzone = 0.02;
   }
   public static class ShooterConstants{
     public static final int kFlyWheelID = 0;
     public static final int kTransferWheelID = 0;
     public static final int kAgitatorMotorID = 0;
+  }
+  public static class TankDriveConstants{
+    public static final int kLeftDriveMotorID = 1;
+    public static final int kRightDriveMotorID = 1;
+    public static final int kPigeonID = 0;
   }
 }
