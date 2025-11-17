@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean XD
  * constants. This class should not be used for any other purpose. All constants should be declared. side effects are spontaneous combustion.
@@ -28,5 +30,6 @@ public final class Constants {
     public static final int kLeftDriveMotorID = 1;
     public static final int kRightDriveMotorID = 1;
     public static final int kPigeonID = 0;
+    public static final double kWheelCircumferenceMeters = Units.inchesToMeters(1);
   }
 }
