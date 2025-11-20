@@ -22,7 +22,7 @@ public class ShooterCMD extends Command {
     this.leftTrigger = leftTrigger;
     this.rightTrigger = rightTrigger;
     addRequirements(shooterSubsystem);
-    flywheelMotorPowerController = new MotorPowerController(0.0014, 0.5, 0.1, 0.5, 0.67, 0, 100);
+    flywheelMotorPowerController = new MotorPowerController(0.0014, 0.5, 0, 0.5, 0.67, 0, 100);
     indexMotorPowerController = new MotorPowerController(0.01, 0.1, 0.1, 0.5, 0.67, 0, 34.9);
   }
 

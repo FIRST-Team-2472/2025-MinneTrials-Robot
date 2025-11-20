@@ -13,7 +13,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
 
   private final XboxController XboxController =
-      new XboxController(OperatorConstants.kDriverControllerPort);
+      new XboxController(OperatorConstants.kXboxControllerPort);
   TankDriveSubsystem tankDriveSubsystem = new TankDriveSubsystem(); 
   ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
    private final Joystick joystickLeft = // left joystick is for up/down

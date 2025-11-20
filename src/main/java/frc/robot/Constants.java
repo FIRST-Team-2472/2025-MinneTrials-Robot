@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean XD
@@ -16,20 +15,19 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kXboxControllerPort = 2;
     public static final int kLeftJoystickPort = 0;
-    public static final int kRightJoystickPort = 0;
+    public static final int kRightJoystickPort = 1;
     public static final double kJoystickDeadzone = 0.02;
   }
   public static class ShooterConstants{
-    public static final int kFlyWheelID = 0;
-    public static final int kTransferWheelID = 0;
-    public static final int kAgitatorMotorID = 0;
+    public static final int kFlyWheelID = 3;
+    public static final int kTransferWheelID = 4;
+    public static final int kAgitatorMotorID = 5;
   }
   public static class TankDriveConstants{
-    public static final int kLeftDriveMotorID = 1;
-    public static final int kRightDriveMotorID = 1;
-    public static final int kPigeonID = 0;
-    public static final double kWheelCircumferenceMeters = Units.inchesToMeters(1);
+    public static final int kLeftDriveMotorID = 6;
+    public static final int kRightDriveMotorID = 7;
+    public static final int kPigeonID = 13;
   }
 }
