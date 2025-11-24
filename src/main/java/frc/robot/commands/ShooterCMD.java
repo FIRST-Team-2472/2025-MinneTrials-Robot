@@ -39,7 +39,7 @@ public class ShooterCMD extends Command {
 
         shooterSubsystem.SetAgitatorPower(AgitatorPower);
 
-        if (directionSwitchTimer.hasElapsed(0.5)) {
+        if (directionSwitchTimer.hasElapsed(0.75) || (AgitatorPower < 0 && directionSwitchTimer.hasElapsed(.25))) {
             AgitatorPower *= -1;
             directionSwitchTimer.reset();
         }
@@ -51,10 +51,13 @@ public class ShooterCMD extends Command {
         }
 
         if (rightTrigger.get()) {
-            System.out.println("Boo");
-            shooterSubsystem.SetTransferWheelPower(indexMotorPowerController.calculate(200, shooterSubsystem.getTransferRPM()));
+            double transferPower = indexMotorPowerController.calculate(200, shooterSubsystem.getTransferRPM());
+            shooterSubsystem.SetTransferWheelPower(transferPower);
+            SmartDashboard.putNumber("transfer Power", transferPower);
         } else {
-            shooterSubsystem.SetTransferWheelPower(indexMotorPowerController.calculate(0, shooterSubsystem.getTransferRPM()));
+            double transferPower = indexMotorPowerController.calculate(0, shooterSubsystem.getTransferRPM());
+            shooterSubsystem.SetTransferWheelPower(transferPower);
+            SmartDashboard.putNumber("transfer Power", transferPower);
         }
     }
 
