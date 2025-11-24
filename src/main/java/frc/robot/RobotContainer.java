@@ -24,7 +24,7 @@ public class RobotContainer {
 
       public RobotContainer() {
         tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
-            () -> joystickLeft.getY(), () -> joystickRight.getX()));
+            () -> joystickLeft.getY(), () -> joystickRight.getX() * 0.55));
         shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
             () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
         configureBindings();

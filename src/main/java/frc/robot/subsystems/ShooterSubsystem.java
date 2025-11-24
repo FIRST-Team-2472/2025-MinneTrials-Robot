@@ -38,12 +38,12 @@ public class ShooterSubsystem extends SubsystemBase {
         agitator.set(power);
     }
 
-    public double getFlyWheelRPM(){
-        return flyWheel.getEncoder().getVelocity()/3;
+    public double getFlyWheelRPM() {
+        return flyWheel.getEncoder().getVelocity() / 3;
     }
 
     public double getTransferRPM(){
-        return transferWheel.getEncoder().getVelocity()/3;
+        return transferWheel.getEncoder().getVelocity() / 3;
     }
 
 
