@@ -2,39 +2,84 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.TankDriveSubsystem;
+import frc.robot.commands.DriveForwardCMD;
+import frc.robot.commands.PathfindingCommand;
+import frc.robot.commands.AutoShootCMD;
 import frc.robot.commands.ShooterCMD;
 import frc.robot.commands.TankDriveCMD;
+import frc.robot.subsystems.TankDriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class RobotContainer {
 
-  private final XboxController XboxController =
-      new XboxController(OperatorConstants.kDriverControllerPort);
-  TankDriveSubsystem tankDriveSubsystem = new TankDriveSubsystem(); 
+  private final SendableChooser<String> autoChooser = new SendableChooser<>();
+
+  private String m_autoSelected;
+  private final String 
+    driveForward = "Drive forward",
+    autoShoot = "Shoot",
+    pathFindingCommand = "Drive to kettle and shoot";
+
+  private final String defaultAuto = "Default Auto";
+
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private final XboxController XboxController = new XboxController(OperatorConstants.kDriverControllerPort);
+
+  TankDriveSubsystem tankDriveSubsystem = new TankDriveSubsystem();
   ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-   private final Joystick joystickLeft = // left joystick is for up/down
+  DriveForwardCMD driveForwardCMD = new DriveForwardCMD(tankDriveSubsystem);
+  AutoShootCMD autoShootCMD = new AutoShootCMD(shooterSubsystem);
+  PathfindingCommand pathfindingCommand = new PathfindingCommand(tankDriveSubsystem);
+
+  private final Joystick joystickLeft = // left joystick is for up/down
       new Joystick(OperatorConstants.kLeftJoystickPort);
-      private final Joystick joystickRight = // right joystick is for turning
+  private final Joystick joystickRight = // right joystick is for turning
       new Joystick(OperatorConstants.kRightJoystickPort);
 
+  public RobotContainer() {
 
-      public RobotContainer() {
-        tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
-            () -> joystickLeft.getY(), () -> joystickRight.getX()));
-        shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
-            () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
-        configureBindings();
-      }
+    m_chooser.addOption(driveForward, driveForward);
+    m_chooser.addOption(autoShoot, autoShoot);
+    m_chooser.addOption(pathFindingCommand, pathFindingCommand);
+
+    m_chooser.addOption(defaultAuto, defaultAuto);
+
+    ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
+    driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+    tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
+        () -> joystickLeft.getY(), () -> joystickRight.getX()));
+    shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
+        () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
+    configureBindings();
+  }
 
   private void configureBindings() {
 
   }
 
   public Command getAutonomousCommand() {
+
+    switch (m_chooser.getSelected()) {
+      case driveForward:
+        return new DriveForwardCMD(tankDriveSubsystem);
+      case autoShoot:
+        return new AutoShootCMD(shooterSubsystem);
+      case pathFindingCommand:
+        return new SequentialCommandGroup(pathfindingCommand, autoShootCMD);
+      default:
+        System.err.println("Auto selection null or not recognized");
+        break;
+    }
+
     return null;
   }
 }

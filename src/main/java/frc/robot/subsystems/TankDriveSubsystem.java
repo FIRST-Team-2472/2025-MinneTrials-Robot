@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -65,6 +66,16 @@ public class TankDriveSubsystem extends SubsystemBase {
 
   public Pose2d getPose() {
     return differentialDrivePoseEstimator.getEstimatedPosition();
+  }
+
+  public void setPose (double x,double y, Rotation2d rotation){
+    differentialDrivePoseEstimator.resetPose(new Pose2d( x, y, rotation));
+  }
+
+  public double getSpeed(){
+    double leftV = leftDriveMotor.getEncoder().getVelocity();
+    double rightV = leftDriveMotor.getEncoder().getVelocity();
+    return (leftV + rightV)/2;
   }
 
   @Override
