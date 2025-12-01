@@ -16,6 +16,9 @@ public class AutoShootCMD extends Command {
         this.shooterSubsystem = shooterSubsystem;
         timeoutTimer = new Timer();
         addRequirements(shooterSubsystem);
+
+        flywheelMotorPowerController = new MotorPowerController(0.01, 0.1, 0.1, 0.5, 0.67, 0, 34.9);
+        indexMotorPowerController = new MotorPowerController(0.01, 0.1, 0.1, 0.5, 0.67, 0, 34.9);
     }
 
     @Override

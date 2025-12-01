@@ -17,8 +17,9 @@ public class TankDriveCMD extends Command {
     this.joystickRight = joystickRight;
     addRequirements(tankDriveSubsystem);
   }
+
   @Override
-  public void initialize() {
+      public void initialize() {
   }
 
   @Override

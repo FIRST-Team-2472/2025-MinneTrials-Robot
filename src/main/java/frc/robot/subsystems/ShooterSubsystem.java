@@ -8,7 +8,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -38,14 +37,13 @@ public class ShooterSubsystem extends SubsystemBase {
         agitator.set(power);
     }
 
-    public double getFlyWheelRPM(){
-        return flyWheel.getEncoder().getVelocity()/3;
+    public double getFlyWheelRPM() {
+        return flyWheel.getEncoder().getVelocity() / 3;
     }
 
-    public double getTransferRPM(){
-        return transferWheel.getEncoder().getVelocity()/3;
+    public double getTransferRPM() {
+        return transferWheel.getEncoder().getVelocity() / 3;
     }
-
 
     @Override
     public void periodic() {

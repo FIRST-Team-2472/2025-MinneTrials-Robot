@@ -18,10 +18,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class RobotContainer {
-
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
-
-  private String m_autoSelected;
   private final String 
     driveForward = "Drive forward",
     autoShoot = "Shoot",
@@ -36,8 +32,6 @@ public class RobotContainer {
   TankDriveSubsystem tankDriveSubsystem = new TankDriveSubsystem();
   ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   DriveForwardCMD driveForwardCMD = new DriveForwardCMD(tankDriveSubsystem);
-  AutoShootCMD autoShootCMD = new AutoShootCMD(shooterSubsystem);
-  PathfindingCommand pathfindingCommand = new PathfindingCommand(tankDriveSubsystem);
 
   private final Joystick joystickLeft = // left joystick is for up/down
       new Joystick(OperatorConstants.kLeftJoystickPort);
@@ -74,12 +68,11 @@ public class RobotContainer {
       case autoShoot:
         return new AutoShootCMD(shooterSubsystem);
       case pathFindingCommand:
-        return new SequentialCommandGroup(pathfindingCommand, autoShootCMD);
+        return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem), new AutoShootCMD(shooterSubsystem));
       default:
         System.err.println("Auto selection null or not recognized");
         break;
     }
-
     return null;
   }
 }
