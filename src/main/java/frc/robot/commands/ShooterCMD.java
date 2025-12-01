@@ -24,7 +24,7 @@ public class ShooterCMD extends Command {
         this.rightTrigger = rightTrigger;
         addRequirements(shooterSubsystem);
         flywheelMotorPowerController = new MotorPowerController(0.00014, 0.8, 0.01, 0.5, 0.67, 0, 300);
-        indexMotorPowerController = new MotorPowerController(0.01, 0.1, 0.1, 0.5, 0.67, 0, 34.9);
+        indexMotorPowerController = new MotorPowerController(0.0001, 0.3, 0.005, 0.2, 0.67, 0, 200);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class ShooterCMD extends Command {
             shooterSubsystem.SetTransferWheelPower(transferPower);
             SmartDashboard.putNumber("transfer Power", transferPower);
         }
+        SmartDashboard.putNumber("transferRPM", shooterSubsystem.getTransferRPM());
     }
 
     @Override
