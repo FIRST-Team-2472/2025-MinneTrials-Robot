@@ -66,8 +66,8 @@ public class TankDriveSubsystem extends SubsystemBase {
   }
 
   public void setMotorPower(double powerLeft, double powerRight) {
-    leftDriveMotor.set(powerLeft);
-    rightDriveMotor.set(powerRight * -1);
+    leftDriveMotor.set(-powerLeft);
+    rightDriveMotor.set(powerRight);
   }
 
   public void arcadeDrive(double power, double turnPercent) {

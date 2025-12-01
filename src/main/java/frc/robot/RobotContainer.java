@@ -18,18 +18,16 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class RobotContainer {
-  private final String 
-    driveForward = "Drive forward",
-    autoShoot = "Shoot",
-    pathFindingCommand = "Drive to kettle and shoot";
+  private final String driveForward = "Drive forward",
+      autoShoot = "Shoot",
+      pathFindingCommand = "Drive to kettle and shoot";
 
   private final String defaultAuto = "Default Auto";
 
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final XboxController XboxController = new XboxController(OperatorConstants.kDriverControllerPort);
-
   TankDriveSubsystem tankDriveSubsystem = new TankDriveSubsystem();
+  private final XboxController XboxController = new XboxController(OperatorConstants.kXboxControllerPort);
   ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   DriveForwardCMD driveForwardCMD = new DriveForwardCMD(tankDriveSubsystem);
 
@@ -50,7 +48,7 @@ public class RobotContainer {
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
-        () -> joystickLeft.getY(), () -> joystickRight.getX()));
+        () -> joystickLeft.getY(), () -> joystickRight.getX() * 0.55));
     shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
         () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
     configureBindings();
@@ -68,7 +66,8 @@ public class RobotContainer {
       case autoShoot:
         return new AutoShootCMD(shooterSubsystem);
       case pathFindingCommand:
-        return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem), new AutoShootCMD(shooterSubsystem));
+        return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem),
+            new AutoShootCMD(shooterSubsystem));
       default:
         System.err.println("Auto selection null or not recognized");
         break;
