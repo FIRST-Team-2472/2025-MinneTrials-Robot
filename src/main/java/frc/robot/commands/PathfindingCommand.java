@@ -19,7 +19,7 @@ public class PathfindingCommand extends Command {
     AccelLimiter yawLimiter;
 
     Timer timeoutTimer = new Timer();
-    double allowedWaypointDistance = 0.1;
+    double allowedWaypointDistance = 0.2;
 
     public PathfindingCommand(TankDriveSubsystem tankDriveSubsystem) {
         this.tankDriveSubsystem = tankDriveSubsystem;
@@ -27,7 +27,7 @@ public class PathfindingCommand extends Command {
 
         speedLimiter = new AccelLimiter(0.02, 0.1);
         yawLimiter = new AccelLimiter(0.03, 0.03);
-        speedController = new MotorPowerController(0.33, 0.5, 0.1, 0.5, 0.67, 0, 1);
+        speedController = new MotorPowerController(0.33, 0.5, 0, 0.5, 0.67, 0, 1);
         yawController = new MotorPowerController(0.0222, 0, 0.1, 0, 0, 0, 0);
     }
 
@@ -52,6 +52,7 @@ public class PathfindingCommand extends Command {
     public void initialize() {
         timeoutTimer.restart();
         setPathingPoses();
+        tankDriveSubsystem.setPose(pathingPoses[0].getX(), pathingPoses[0].getY(), new Rotation2d().fromDegrees(270));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class PathfindingCommand extends Command {
             double speed = speedLimiter.calculate(speedController.calculate(pathingPoses[currentPathNode].getSpeed(),
                     tankDriveSubsystem.getSpeed()));
 
-            tankDriveSubsystem.arcadeDrive(speed, rotationValue);
+            tankDriveSubsystem.arcadeDrive(-speed, -rotationValue);
         } else {
             double speed = speedLimiter.calculate(speedController.calculate(getDistanceFromWaypoint() / 2,
                     tankDriveSubsystem.getSpeed()));
@@ -85,7 +86,7 @@ public class PathfindingCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return timeoutTimer.hasElapsed(5) || getDistanceFromWaypoint() < allowedWaypointDistance;
+        return timeoutTimer.hasElapsed(10) || getDistanceFromWaypoint() < allowedWaypointDistance;
     }
 
     public double getDistanceFromWaypoint() {

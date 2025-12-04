@@ -9,6 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -52,17 +53,17 @@ public class TankDriveSubsystem extends SubsystemBase {
       if (ally.get() == Alliance.Blue) {
         return false;
       }
-    } else {
-      return false;
     }
+      return false;
+    
   }
 
   private double getLeftEncoder() {
-    return leftDriveMotor.getEncoder().getPosition() * 4 * Math.PI;
+    return leftDriveMotor.getEncoder().getPosition() * 4 * Math.PI / 12;
   }
 
   private double getRightEncoder() {
-    return rightDriveMotor.getEncoder().getPosition() * 4 * Math.PI;
+    return rightDriveMotor.getEncoder().getPosition() * 4 * Math.PI / 12;
   }
 
   public void setMotorPower(double powerLeft, double powerRight) {
@@ -83,6 +84,10 @@ public class TankDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     differentialDrivePoseEstimator.update(gyro.getRotation2d(), getLeftEncoder(), getRightEncoder());
+    SmartDashboard.putNumber("Robot X", getPose().getX());
+    SmartDashboard.putNumber("Robot Y", getPose().getY());
+    SmartDashboard.putNumber("Robot angle", getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("Robot speed", getSpeed());
   }
 
   public Pose2d getPose() {
@@ -96,7 +101,7 @@ public class TankDriveSubsystem extends SubsystemBase {
   public double getSpeed() {
     double leftV = leftDriveMotor.getEncoder().getVelocity();
     double rightV = leftDriveMotor.getEncoder().getVelocity();
-    return (leftV + rightV) / 2 * 0.00531976356; // Averages and converts to meters per second
+    return (leftV + rightV) / 2 * 0.00531976356 / 12; // Averages and converts to meters per second
   }
 
   @Override

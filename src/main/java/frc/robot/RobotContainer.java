@@ -64,10 +64,10 @@ public class RobotContainer {
       case driveForward:
         return new DriveForwardCMD(tankDriveSubsystem);
       case autoShoot:
-        return new AutoShootCMD(shooterSubsystem);
+        return new AutoShootCMD(shooterSubsystem, tankDriveSubsystem);
       case pathFindingCommand:
         return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem),
-            new AutoShootCMD(shooterSubsystem));
+            new AutoShootCMD(shooterSubsystem, tankDriveSubsystem));
       default:
         System.err.println("Auto selection null or not recognized");
         break;

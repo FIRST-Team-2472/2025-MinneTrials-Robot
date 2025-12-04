@@ -23,7 +23,7 @@ public class DriveForwardCMD extends Command {
 
     @Override
     public void execute() {
-        tankDriveSubsystem.setMotorPower(0.5, 0.5);
+        tankDriveSubsystem.setMotorPower(-0.5, -0.5);
     }
 
     @Override
