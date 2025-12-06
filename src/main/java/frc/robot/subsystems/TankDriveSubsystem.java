@@ -59,11 +59,11 @@ public class TankDriveSubsystem extends SubsystemBase {
   }
 
   private double getLeftEncoder() {
-    return leftDriveMotor.getEncoder().getPosition() * 4 * Math.PI / 12;
+    return leftDriveMotor.getEncoder().getPosition() * 6 * Math.PI / 12;
   }
 
   private double getRightEncoder() {
-    return rightDriveMotor.getEncoder().getPosition() * 4 * Math.PI / 12;
+    return -rightDriveMotor.getEncoder().getPosition() * 6 * Math.PI / 12;
   }
 
   public void setMotorPower(double powerLeft, double powerRight) {
@@ -83,7 +83,7 @@ public class TankDriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    differentialDrivePoseEstimator.update(gyro.getRotation2d(), getLeftEncoder(), getRightEncoder());
+    differentialDrivePoseEstimator.update(gyro.getRotation2d(), Units.inchesToMeters(getLeftEncoder()), Units.inchesToMeters(getRightEncoder()));
     SmartDashboard.putNumber("Robot X", getPose().getX());
     SmartDashboard.putNumber("Robot Y", getPose().getY());
     SmartDashboard.putNumber("Robot angle", getPose().getRotation().getDegrees());
@@ -100,7 +100,7 @@ public class TankDriveSubsystem extends SubsystemBase {
 
   public double getSpeed() {
     double leftV = leftDriveMotor.getEncoder().getVelocity();
-    double rightV = leftDriveMotor.getEncoder().getVelocity();
+    double rightV = -rightDriveMotor.getEncoder().getVelocity();
     return (leftV + rightV) / 2 * 0.00531976356 / 12; // Averages and converts to meters per second
   }
 

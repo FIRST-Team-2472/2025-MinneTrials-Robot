@@ -10,6 +10,7 @@ import frc.robot.commands.PathfindingCommand;
 import frc.robot.commands.AutoShootCMD;
 import frc.robot.commands.ShooterCMD;
 import frc.robot.commands.TankDriveCMD;
+import frc.robot.commands.TurnCMD;
 import frc.robot.subsystems.TankDriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -67,6 +68,7 @@ public class RobotContainer {
         return new AutoShootCMD(shooterSubsystem, tankDriveSubsystem);
       case pathFindingCommand:
         return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem),
+            new TurnCMD(tankDriveSubsystem),
             new AutoShootCMD(shooterSubsystem, tankDriveSubsystem));
       default:
         System.err.println("Auto selection null or not recognized");

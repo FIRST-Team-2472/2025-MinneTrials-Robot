@@ -11,8 +11,9 @@ public class AutoShootCMD extends Command {
     ShooterSubsystem shooterSubsystem;
     TankDriveSubsystem tankDriveSubsystem;
     Timer timeoutTimer;
-    Timer driveTimer;
+    Timer shakeTimer;
     Timer revUpTimer;
+    Timer shakeCycleTimer;
     MotorPowerController flywheelMotorPowerController;
     MotorPowerController indexMotorPowerController;
     double AgitatorPower = 0.2;
@@ -22,8 +23,9 @@ public class AutoShootCMD extends Command {
         this.shooterSubsystem = shooterSubsystem;
         this.tankDriveSubsystem = tankDriveSubsystem;
         timeoutTimer = new Timer();
-        driveTimer = new Timer();
+        shakeTimer = new Timer();
         revUpTimer = new Timer();
+        shakeCycleTimer = new Timer();
         addRequirements(tankDriveSubsystem);
         addRequirements(shooterSubsystem);
 
@@ -34,24 +36,31 @@ public class AutoShootCMD extends Command {
     @Override
     public void initialize() {
         timeoutTimer.restart();
-        driveTimer.restart();
+        shakeTimer.restart();
         revUpTimer.restart();
+        shakeCycleTimer.restart();
     }
 
     @Override
     public void execute() {
+        if (!shakeCycleTimer.hasElapsed(0.4)){
+            if(shakeTimer.hasElapsed(.2)){
+                drivePower *= -1;
+            }
 
-        if (driveTimer.hasElapsed(0.2)) {
-            drivePower *= -1;
-            tankDriveSubsystem.setMotorPower(drivePower, drivePower);
-            driveTimer.reset();
+            tankDriveSubsystem.setMotorPower(drivePower-0.05, drivePower-0.05);
+        }else{
+            tankDriveSubsystem.setMotorPower(0, 0);
         }
 
         shooterSubsystem.SetAgitatorPower(AgitatorPower);
 
         shooterSubsystem.SetflyWheelPower(flywheelMotorPowerController.calculate(1400, shooterSubsystem.getFlyWheelRPM()));
-        if (revUpTimer.hasElapsed(0.5)) {
+        if (revUpTimer.hasElapsed(0.5) && shakeCycleTimer.hasElapsed(0.4)) {
             shooterSubsystem.SetTransferWheelPower(indexMotorPowerController.calculate(200, shooterSubsystem.getTransferRPM()));
+        }
+        if (shakeCycleTimer.hasElapsed(1.2)) {
+            shakeCycleTimer.restart();   
         }
     }
 
