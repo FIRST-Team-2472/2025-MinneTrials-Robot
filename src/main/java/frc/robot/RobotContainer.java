@@ -21,7 +21,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public class RobotContainer {
   private final String driveForward = "Drive forward",
       autoShoot = "Shoot",
-      pathFindingCommand = "Drive to kettle and shoot";
+      pathFindingCommand = "Drive to kettle and shoot",
+      turnAuto = "Turn to 270 degrees";
 
   private final String defaultAuto = "Default Auto";
 
@@ -42,14 +43,14 @@ public class RobotContainer {
     m_chooser.addOption(driveForward, driveForward);
     m_chooser.addOption(autoShoot, autoShoot);
     m_chooser.addOption(pathFindingCommand, pathFindingCommand);
-
+    m_chooser.addOption(turnAuto, turnAuto);
     m_chooser.addOption(defaultAuto, defaultAuto);
 
     ShuffleboardTab driverBoard = Shuffleboard.getTab("Driver Board");
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
-        () -> joystickLeft.getY(), () -> joystickRight.getX() * 0.55));
+        () -> joystickLeft.getY() * 0.75, () -> joystickRight.getX() * 0.55));
     shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
         () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
     configureBindings();
@@ -70,6 +71,8 @@ public class RobotContainer {
         return new SequentialCommandGroup(new PathfindingCommand(tankDriveSubsystem),
             new TurnCMD(tankDriveSubsystem),
             new AutoShootCMD(shooterSubsystem, tankDriveSubsystem));
+      case turnAuto:
+        return new TurnCMD(tankDriveSubsystem);
       default:
         System.err.println("Auto selection null or not recognized");
         break;
