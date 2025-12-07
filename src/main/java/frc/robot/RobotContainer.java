@@ -50,7 +50,7 @@ public class RobotContainer {
     driverBoard.add("Auto choices", m_chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     tankDriveSubsystem.setDefaultCommand(new TankDriveCMD(tankDriveSubsystem,
-        () -> joystickLeft.getY() * 0.75, () -> joystickRight.getX() * 0.55));
+        () -> joystickLeft.getY(), () -> joystickRight.getX() * 0.55));
     shooterSubsystem.setDefaultCommand(new ShooterCMD(shooterSubsystem,
         () -> XboxController.getLeftTriggerAxis() > 0.5, () -> XboxController.getRightTriggerAxis() > 0.5));
     configureBindings();

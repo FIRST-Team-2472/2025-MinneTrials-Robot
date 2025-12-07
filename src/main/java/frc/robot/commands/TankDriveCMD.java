@@ -4,18 +4,21 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.MotorPowerController;
 import frc.robot.subsystems.TankDriveSubsystem;
 
 public class TankDriveCMD extends Command {
   TankDriveSubsystem tankDriveSubsystem;
   Supplier<Double> joystickLeft;
   Supplier<Double> joystickRight;
+  MotorPowerController speedController;
 
   public TankDriveCMD(TankDriveSubsystem tankDriveSubsystem, Supplier<Double> joystickLeft, Supplier<Double> joystickRight) {
     this.tankDriveSubsystem = tankDriveSubsystem;
     this.joystickLeft = joystickLeft;
     this.joystickRight = joystickRight;
     addRequirements(tankDriveSubsystem);
+    speedController = new MotorPowerController(0.33, 0.5, 0, 0.5, 0.67, 0, 1);
   }
 
   @Override
@@ -33,6 +36,9 @@ public class TankDriveCMD extends Command {
     if (Math.abs(turnPercent) < OperatorConstants.kJoystickDeadzone) {
       turnPercent = 0;
     }
+
+    drivePower = speedController.calculate(drivePower*3.2, tankDriveSubsystem.getTrueSpeed());
+
 
     tankDriveSubsystem.arcadeDrive(drivePower, turnPercent);
   }

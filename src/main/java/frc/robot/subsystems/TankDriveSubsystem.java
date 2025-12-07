@@ -87,7 +87,9 @@ public class TankDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Robot X", getPose().getX());
     SmartDashboard.putNumber("Robot Y", getPose().getY());
     SmartDashboard.putNumber("Robot angle", getPose().getRotation().getDegrees());
+
     SmartDashboard.putNumber("Robot speed", getSpeed());
+    SmartDashboard.putNumber("true robot speed" , getTrueSpeed());
   }
 
   public Pose2d getPose() {
@@ -102,6 +104,12 @@ public class TankDriveSubsystem extends SubsystemBase {
     double leftV = leftDriveMotor.getEncoder().getVelocity();
     double rightV = -rightDriveMotor.getEncoder().getVelocity();
     return (leftV + rightV) / 2 * 0.00531976356 / 12; // Averages and converts to meters per second
+  }
+  public double getTrueSpeed() {
+    double leftV = leftDriveMotor.getEncoder().getVelocity();
+    double rightV = -rightDriveMotor.getEncoder().getVelocity();
+    return (leftV + rightV) / 2 / 12 * 6 * Math.PI * 0.0254;
+    // 2 is to average, 12 is gear ratio 6 Pi is wheel circumference in inches 0.0254 is inches to meters
   }
 
   @Override
