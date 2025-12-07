@@ -22,7 +22,7 @@ public class TurnCMD extends Command {
         timeoutTimer = new Timer();
 
         accelLimiter = new AccelLimiter(0.02, 0.1);
-        yawController = new MotorPowerController(0.015, 0, 0.1, 0, 0, 0, 0);
+        yawController = new MotorPowerController(0.015, 0, 0.2, 0, 0, 0, 0);
     }
 
       @Override
