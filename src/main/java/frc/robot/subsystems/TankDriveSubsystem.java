@@ -108,8 +108,8 @@ public class TankDriveSubsystem extends SubsystemBase {
   public double getTrueSpeed() {
     double leftV = leftDriveMotor.getEncoder().getVelocity();
     double rightV = -rightDriveMotor.getEncoder().getVelocity();
-    return (leftV + rightV) / 2 / 12 * 6 * Math.PI * 0.0254;
-    // 2 is to average, 12 is gear ratio 6 Pi is wheel circumference in inches 0.0254 is inches to meters
+    return (leftV + rightV) / 2 / 12 * 6 * Math.PI * 0.0254 / 60;
+    // 2 is to average, 12 is gear ratio 6 Pi is wheel circumference in inches 0.0254 is inches to meters, 60 is used to convert from per minute to per second
   }
 
   @Override
